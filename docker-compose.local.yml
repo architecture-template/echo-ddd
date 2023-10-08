@@ -74,3 +74,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  # Swagger
+  swagger:
+    container_name: echo-ddd-swagger
+    env_file:
+      - .env.local
+    build:
+      target: dev
+      context: .
+      dockerfile: ./docker/swagger/Dockerfile
+    volumes:
+      - .:/swagger:cached
+    ports:
+      - "8000:8000"
+    tty: true

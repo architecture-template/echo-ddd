@@ -10,7 +10,7 @@ make docket_all
 ## API
 - 確認用API
 ```
-GET: http://localhost:8001/example/key2/get_example
+GET: http://localhost:8001/example/key1/get_example
 ```
 - response
 ```json
@@ -18,8 +18,8 @@ GET: http://localhost:8001/example/key2/get_example
     "types": "get_example",
     "status": 200,
     "items": {
-        "example_key": "key2",
-        "example_name": "Name2",
+        "example_key": "key1",
+        "example_name": "Name1",
         "message": "get example completed"
     }
 }

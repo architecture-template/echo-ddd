@@ -1,0 +1,11 @@
+.env
+
+/tmp
+/log/api_debug.log
+/log/batch_debug.log
+/static/images
+
+/docker/db/sql
+/docker/db/data
+/docker/testdb/sql
+/docker/testdb/data

@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Test
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: docker compose -f docker-compose.test.yml up -d --build
+    
+      - name: Sleep for 10 seconds
+        run: sleep 10
+
+      - name: Model Test
+        run: docker compose -f docker-compose.test.yml exec test go test -v ./domain/model/...
+
+      - name: Dao Test
+        run: docker compose -f docker-compose.test.yml exec test go test -v ./infra/dao/...
+
+      - name: E2E Test
+        run: docker compose -f docker-compose.test.yml exec test go test -v ./test/e2e/...

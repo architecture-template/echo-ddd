@@ -19,4 +19,3 @@ docker_swag_mock:
 # ローカルDBに接続
 docker_db:
 	docker compose -f docker-compose.local.yml exec db mysql --host=localhost --user=mysql_user --password=mysql_password echo_ddd_local
-

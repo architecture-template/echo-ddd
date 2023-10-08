@@ -28,8 +28,15 @@ services:
 # Test
   test:
     container_name: echo-ddd-test
-    env_file:
-      - .env.test
+    environment:
+      MYSQL_DATABASE: echo_ddd_test
+      MYSQL_WRITE_USER: mysql_user
+      MYSQL_WRITE_PASSWORD: mysql_password
+      MYSQL_WRITE_HOST: host.docker.internal:3307
+      MYSQL_READ_USER: mysql_user
+      MYSQL_READ_PASSWORD: mysql_password
+      MYSQL_READ_HOST: host.docker.internal:3307
+      TEST_API_URL: http://localhost:8000
     build:
       target: dev
       context: .

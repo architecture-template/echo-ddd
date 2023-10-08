@@ -36,7 +36,7 @@ services:
       MYSQL_READ_USER: mysql_user
       MYSQL_READ_PASSWORD: mysql_password
       MYSQL_READ_HOST: host.docker.internal:3307
-      TEST_API_URL: http://localhost:8000
+      TEST_API_URL: http://0.0.0.0:8000
     build:
       target: dev
       context: .

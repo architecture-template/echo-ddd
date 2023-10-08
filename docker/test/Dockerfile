@@ -8,7 +8,7 @@ COPY . .
 RUN go build -o main /app/api/main.go
 
 # Run Production
-FROM alpine AS production
+FROM alpine AS prod
 
 WORKDIR /app
 COPY --from=builder /app/main .

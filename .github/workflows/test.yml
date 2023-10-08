@@ -14,8 +14,8 @@ jobs:
       - name: Build
         run: docker compose -f docker-compose.test.yml up -d --build
     
-      - name: Sleep for 10 seconds
-        run: sleep 10
+      - name: Sleep for 15 seconds
+        run: sleep 15
 
       - name: Model Test
         run: docker compose -f docker-compose.test.yml exec test go test -v ./domain/model/...

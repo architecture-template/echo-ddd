@@ -19,3 +19,15 @@ docker_swag_mock:
 # ローカルDBに接続
 docker_db:
 	docker compose -f docker-compose.local.yml exec db mysql --host=localhost --user=mysql_user --password=mysql_password echo_ddd_local
+
+# Modelテスト
+docker_test_model:
+	docker compose -f docker-compose.test.yml exec test go test -v ./domain/model/...
+
+# Daoテスト
+docker_test_dao:
+	docker compose -f docker-compose.test.yml exec test go test -v ./infra/dao/...
+
+# E2Eテスト
+docker_test_e2e:
+	docker compose -f docker-compose.test.yml exec test go test -v ./test/e2e/...

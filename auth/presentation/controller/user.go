@@ -28,7 +28,7 @@ func NewUserController(userService service.UserService) UserController {
 // @Accept      json
 // @Produce     json
 // @Param       body body parameter.RegisterUser true "ユーザー登録"
-// @Success     200  {object} response.Success{items=output.RegisterUser}
+// @Success     200  {object} response.Success{items=output.User}
 // @Failure     500  {array}  output.Error
 // @Router      /user/register_user [post]
 func (u *userController) RegisterUser() echo.HandlerFunc {
@@ -38,7 +38,7 @@ func (u *userController) RegisterUser() echo.HandlerFunc {
 
 		// 登録済のメールアドレスを検索
 		check, _ := u.userService.FindByEmail(param.Email)
-		if check.Email == param.Email {
+		if check != nil {
 			response := response.ErrorWith("register_user", 400, "email already exists")
 
 			return c.JSON(400, response)

@@ -4,23 +4,26 @@ import (
 	"testing"
 )
 
-func TestExample_EmptyExample(t *testing.T) {
+func TestUser_EmptyUser(t *testing.T) {
 	tests := []struct {
 		name     string
-		example  *Example
+		user     *User
 		expected bool
 	}{
 		{
 			name:     "正常系: モデルが空の場合",
-			example:  EmptyExample(),
+			user:     EmptyUser(),
 			expected: true,
 		},
 		{
-			name:    "正常系: モデルが空でない場合",
-			example: &Example{
-				ID:          1,
-				ExampleKey:  "test_key",
-				ExampleName: "test_name",
+			name: "正常系: モデルが空でない場合",
+			user: &User{
+				ID:        1,
+				UserKey:   "test_key",
+				UserName:  "test_name",
+				Email:     "test@example.com",
+				Password:  "password123",
+				Token:     "token123",
 			},
 			expected: false,
 		},
@@ -28,7 +31,7 @@ func TestExample_EmptyExample(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			if empty := test.example.IsEmpty(); empty != test.expected {
+			if empty := test.user.IsEmpty(); empty != test.expected {
 				t.Errorf("Expected IsEmpty() to return %v, but got %v", test.expected, empty)
 			}
 		})

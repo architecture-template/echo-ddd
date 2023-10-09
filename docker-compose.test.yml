@@ -32,10 +32,10 @@ services:
       MYSQL_DATABASE: echo_ddd_test
       MYSQL_WRITE_USER: mysql_user
       MYSQL_WRITE_PASSWORD: mysql_password
-      MYSQL_WRITE_HOST: host.docker.internal:3307
+      MYSQL_WRITE_HOST: echo-ddd-testdb
       MYSQL_READ_USER: mysql_user
       MYSQL_READ_PASSWORD: mysql_password
-      MYSQL_READ_HOST: host.docker.internal:3307
+      MYSQL_READ_HOST: echo-ddd-testdb
       TEST_API_URL: http://0.0.0.0:8000
     build:
       target: dev

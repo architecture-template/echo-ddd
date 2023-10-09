@@ -18,6 +18,6 @@ func ToUser(u *model.User) *User {
 		UserName: u.UserName,
 		Email:    u.Email,
 		Token:    u.Token,
-		Message:  "register user completed",
+		Message:  "user completed",
 	}
 }

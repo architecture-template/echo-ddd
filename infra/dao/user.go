@@ -35,6 +35,13 @@ func (u *userDao) FindByEmail(email string) (*model.User, error) {
 
 
 func (u *userDao) Insert(param *model.User, tx *gorm.DB) (*model.User, error) {
+	var conn *gorm.DB
+	if tx != nil {
+		conn = tx
+	} else {
+		conn = u.Write
+	}
+
 	entity := &model.User{
 		UserKey:  param.UserKey,
 		UserName: param.UserName,
@@ -42,7 +49,16 @@ func (u *userDao) Insert(param *model.User, tx *gorm.DB) (*model.User, error) {
 		Password: param.Password,
 		Token:    param.Token,
 	}
+	
+	res := conn.Model(&model.User{}).Create(entity)
+	if err := res.Error; err != nil {
+		return entity, err
+	}
 
+	return entity, nil
+}
+
+func (u *userDao) Update(param *model.User, tx *gorm.DB) (*model.User, error) {
 	var conn *gorm.DB
 	if tx != nil {
 		conn = tx
@@ -50,9 +66,19 @@ func (u *userDao) Insert(param *model.User, tx *gorm.DB) (*model.User, error) {
 		conn = u.Write
 	}
 	
-	res := conn.Model(&model.User{}).Create(entity)
+	entity := &model.User{
+		UserKey:     param.UserKey,
+		UserName:    param.UserName,
+		Email:       param.Email,
+		Password:    param.Password,
+		Token:       param.Token,
+	}
+
+	res := conn.Model(&model.User{}).
+		Where("user_key = ?", entity.UserKey).
+		Update(entity)
 	if err := res.Error; err != nil {
-		return entity, err
+		return nil, err
 	}
 
 	return entity, nil

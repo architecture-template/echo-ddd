@@ -27,6 +27,7 @@ func Init() {
 
 	auth := e.Group("/user")
 	auth.POST("/register_user", userController.RegisterUser())
+	auth.POST("/login_user", userController.LoginUser())
 
 	e.Logger.Fatal(e.Start(":8000"))
 }

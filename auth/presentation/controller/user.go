@@ -11,6 +11,7 @@ import (
 
 type UserController interface {
 	RegisterUser() echo.HandlerFunc
+	LoginUser() echo.HandlerFunc
 }
 
 type userController struct {
@@ -55,6 +56,34 @@ func (u *userController) RegisterUser() echo.HandlerFunc {
 		out := output.ToUser(result)
 		response := response.SuccessWith("register_user", 200, out)
 
+		return c.JSON(200, response)
+	}
+}
+
+// @tags        User
+// @Summary     ユーザーログイン
+// @Accept      json
+// @Produce     json
+// @Router      /user/login_user [post]
+// @Param       body body parameter.LoginUser true "ユーザーログイン"
+// @Success     200  {object} response.Success{items=output.User}
+// @Failure     500  {array}  output.Error
+func (u *userController) LoginUser() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		param := &parameter.LoginUser{}
+		c.Bind(param)
+
+		result, err := u.userService.LoginUser(param)
+		if err != nil {
+			out := output.NewError(err)
+			response := response.ErrorWith("login_user", 500, out)
+
+			return c.JSON(500, response)
+		}
+	
+		out := output.ToUser(result)
+		response := response.SuccessWith("login_user", 200, out)
+		
 		return c.JSON(200, response)
 	}
 }

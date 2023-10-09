@@ -12,13 +12,13 @@ import (
 	dbConfig "github.com/architecture-template/echo-ddd/config/db"
 )
 
-func TestExample_FindByKey(t *testing.T) {
+func TestExample_FindByExampleKey(t *testing.T) {
 	testCases := []struct {
-		name           string
-		mockRows       *sqlmock.Rows
-		mockError      error
-		expectedUser   *model.Example
-		expectedError  error
+		name            string
+		mockRows        *sqlmock.Rows
+		mockError       error
+		expectedExample *model.Example
+		expectedError   error
 	}{
 		{
 			name: "正常系: レコードが存在する場合",
@@ -31,7 +31,7 @@ func TestExample_FindByKey(t *testing.T) {
 					time.Date(2023, time.January, 1, 0, 0, 0, 0, time.UTC),
 				),
 			mockError: nil,
-			expectedUser: &model.Example{
+			expectedExample: &model.Example{
 				ID:          1,
 				ExampleKey:  "test_key",
 				ExampleName: "test_name",
@@ -41,11 +41,11 @@ func TestExample_FindByKey(t *testing.T) {
 			expectedError: nil,
 		},
 		{
-			name: "正常系: レコードが存在しない場合",
-			mockRows: sqlmock.NewRows([]string{"id", "example_key", "example_name", "created_at", "updated_at"}),
-			mockError: nil,
-			expectedUser: nil,
-			expectedError: gorm.ErrRecordNotFound,
+			name:            "正常系: レコードが存在しない場合",
+			mockRows:        sqlmock.NewRows([]string{"id", "example_key", "example_name", "created_at", "updated_at"}),
+			mockError:       nil,
+			expectedExample: nil,
+			expectedError:   gorm.ErrRecordNotFound,
 		},
 	}
 
@@ -63,8 +63,8 @@ func TestExample_FindByKey(t *testing.T) {
 			repo := NewExampleDao(sqlHandler)
 			mock.ExpectQuery("SELECT").WithArgs("test_key").WillReturnRows(tc.mockRows).WillReturnError(tc.mockError)
 
-			example, err := repo.FindByKey("test_key")
-			assert.Equal(t, tc.expectedUser, example)
+			example, err := repo.FindByExampleKey("test_key")
+			assert.Equal(t, tc.expectedExample, example)
 			assert.Equal(t, tc.expectedError, err)
 		})
 	}

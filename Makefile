@@ -6,11 +6,13 @@ docker_all:
 # Wireを自動生成
 docker_wire_gen:
 	docker compose -f docker-compose.local.yml exec gen wire api/di/wire.go
+	docker compose -f docker-compose.local.yml exec gen wire auth/di/wire.go
 	docker compose -f docker-compose.local.yml exec gen wire batch/di/wire.go
 
 # Swaggerを自動生成
 docker_swag_gen:
 	docker compose -f docker-compose.local.yml exec api swag init --dir=api --output=docs/swagger/api
+	docker compose -f docker-compose.local.yml exec api swag init --dir=api --output=docs/swagger/auth
 
 # Swaggerのモックサーバーを起動
 docker_swag_mock:
@@ -30,4 +32,4 @@ docker_test_dao:
 
 # E2Eテスト
 docker_test_e2e:
-	docker compose -f docker-compose.test.yml exec test go test -v ./test/e2e/...
+	docker compose -f docker-compose.test.yml exec test go test -v ./test/e2e/api/...

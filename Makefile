@@ -6,6 +6,7 @@ docker_all:
 # Wireを自動生成
 docker_wire_gen:
 	docker compose -f docker-compose.local.yml exec gen wire api/di/wire.go
+	docker compose -f docker-compose.local.yml exec gen wire auth/di/wire.go
 	docker compose -f docker-compose.local.yml exec gen wire batch/di/wire.go
 
 # Swaggerを自動生成

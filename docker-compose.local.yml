@@ -25,11 +25,33 @@ services:
       timeout: 20s
       retries: 10
 
+  # Auth DB Master
+  authdb:
+    container_name: echo-ddd-auth-db
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql_root
+      MYSQL_DATABASE: echo_ddd_auth_local
+      MYSQL_USER: mysql_user
+      MYSQL_PASSWORD: mysql_password
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./docker/authdb/data:/var/lib/mysql  
+      - ./docker/authdb/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/authdb/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3308:3306"
+    tty: true
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
   # Gen
   gen:
     container_name: echo-ddd-gen
     env_file:
-      - .env.local
+      - .env.api.local
     build:
       target: dev
       context: .
@@ -45,7 +67,7 @@ services:
   api:
     container_name: echo-ddd-api
     env_file:
-      - .env.local
+      - .env.api.local
     build: 
       target: dev
       context: .
@@ -59,11 +81,29 @@ services:
       db:
         condition: service_healthy
 
+  # Auth
+  auth:
+    container_name: echo-ddd-auth
+    env_file:
+      - .env.auth.local
+    build: 
+      target: dev
+      context: .
+      dockerfile: ./docker/auth/Dockerfile
+    volumes:
+      - ./:/go/src/app
+    ports:
+      - "8002:8000"
+    tty: true
+    depends_on:
+      db:
+        condition: service_healthy
+
   # Batch
   batch:
     container_name: echo-ddd-batch
     env_file:
-      - .env.local
+      - .env.api.local
     build:
       target: dev
       context: .
@@ -79,7 +119,7 @@ services:
   swagger:
     container_name: echo-ddd-swagger
     env_file:
-      - .env.local
+      - .env.api.local
     build:
       target: dev
       context: .

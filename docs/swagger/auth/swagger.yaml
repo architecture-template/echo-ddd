@@ -5,13 +5,33 @@ definitions:
       message:
         type: string
     type: object
-  output.Example:
+  output.User:
     properties:
-      example_key:
-        type: string
-      example_name:
+      email:
         type: string
       message:
+        type: string
+      name:
+        type: string
+      token:
+        type: string
+      user_key:
+        type: string
+    type: object
+  parameter.LoginUser:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  parameter.RegisterUser:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      user_name:
         type: string
     type: object
   response.Success:
@@ -22,7 +42,7 @@ definitions:
       types:
         type: string
     type: object
-host: localhost:8001
+host: localhost:8002
 info:
   contact: {}
   description: This is a sample swagger server.
@@ -32,17 +52,17 @@ info:
   title: Chat Connect
   version: "1.0"
 paths:
-  /example/{example_key}/get_example:
-    get:
+  /user/login_user:
+    post:
       consumes:
       - application/json
       parameters:
-      - description: example_key
-        in: path
-        maxLength: 20
-        name: example_key
+      - description: ユーザーログイン
+        in: body
+        name: body
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/parameter.LoginUser'
       produces:
       - application/json
       responses:
@@ -53,7 +73,7 @@ paths:
             - $ref: '#/definitions/response.Success'
             - properties:
                 items:
-                  $ref: '#/definitions/output.Example'
+                  $ref: '#/definitions/output.User'
               type: object
         "500":
           description: Internal Server Error
@@ -61,7 +81,39 @@ paths:
             items:
               $ref: '#/definitions/output.Error'
             type: array
-      summary: 確認用
+      summary: ユーザーログイン
       tags:
-      - Example
+      - User
+  /user/register_user:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ユーザー登録
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/parameter.RegisterUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Success'
+            - properties:
+                items:
+                  $ref: '#/definitions/output.User'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/output.Error'
+            type: array
+      summary: ユーザー登録
+      tags:
+      - User
 swagger: "2.0"

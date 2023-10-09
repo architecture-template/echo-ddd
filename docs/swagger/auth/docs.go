@@ -20,8 +20,8 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/example/{example_key}/get_example": {
-            "get": {
+        "/user/login_user": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
@@ -29,17 +29,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Example"
+                    "User"
                 ],
-                "summary": "確認用",
+                "summary": "ユーザーログイン",
                 "parameters": [
                     {
-                        "maxLength": 20,
-                        "type": "string",
-                        "description": "example_key",
-                        "name": "example_key",
-                        "in": "path",
-                        "required": true
+                        "description": "ユーザーログイン",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/parameter.LoginUser"
+                        }
                     }
                 ],
                 "responses": {
@@ -54,7 +55,61 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "items": {
-                                            "$ref": "#/definitions/output.Example"
+                                            "$ref": "#/definitions/output.User"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/output.Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/register_user": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "ユーザー登録",
+                "parameters": [
+                    {
+                        "description": "ユーザー登録",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/parameter.RegisterUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "$ref": "#/definitions/output.User"
                                         }
                                     }
                                 }
@@ -83,16 +138,47 @@ const docTemplate = `{
                 }
             }
         },
-        "output.Example": {
+        "output.User": {
             "type": "object",
             "properties": {
-                "example_key": {
-                    "type": "string"
-                },
-                "example_name": {
+                "email": {
                     "type": "string"
                 },
                 "message": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "user_key": {
+                    "type": "string"
+                }
+            }
+        },
+        "parameter.LoginUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "parameter.RegisterUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
                     "type": "string"
                 }
             }
@@ -115,7 +201,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8001",
+	Host:             "localhost:8002",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Chat Connect",

@@ -12,15 +12,18 @@ docker_wire_gen:
 # Swaggerを自動生成
 docker_swag_gen:
 	docker compose -f docker-compose.local.yml exec api swag init --dir=api --output=docs/swagger/api
-	docker compose -f docker-compose.local.yml exec api swag init --dir=api --output=docs/swagger/auth
+	docker compose -f docker-compose.local.yml exec auth swag init --dir=auth --output=docs/swagger/auth
 
 # Swaggerのモックサーバーを起動
 docker_swag_mock:
 	docker compose -f docker-compose.local.yml exec swagger prism mock ./docs/swagger/api/swagger.yaml --port=8000 --host=0.0.0.0
 
 # ローカルDBに接続
-docker_db:
-	docker compose -f docker-compose.local.yml exec db mysql --host=localhost --user=mysql_user --password=mysql_password echo_ddd_local
+docker_db_api:
+	docker compose -f docker-compose.local.yml exec db_api mysql --host=localhost --user=mysql_user --password=mysql_password echo_ddd_api_local
+
+docker_db_auth:
+	docker compose -f docker-compose.local.yml exec db_auth mysql --host=localhost --user=mysql_user --password=mysql_password echo_ddd_auth_local
 
 # Modelテスト
 docker_test_model:

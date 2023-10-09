@@ -10,11 +10,11 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8001",
+    "host": "localhost:8002",
     "basePath": "/",
     "paths": {
-        "/example/{example_key}/get_example": {
-            "get": {
+        "/user/login_user": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
@@ -22,17 +22,18 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Example"
+                    "User"
                 ],
-                "summary": "確認用",
+                "summary": "ユーザーログイン",
                 "parameters": [
                     {
-                        "maxLength": 20,
-                        "type": "string",
-                        "description": "example_key",
-                        "name": "example_key",
-                        "in": "path",
-                        "required": true
+                        "description": "ユーザーログイン",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/parameter.LoginUser"
+                        }
                     }
                 ],
                 "responses": {
@@ -47,7 +48,61 @@
                                     "type": "object",
                                     "properties": {
                                         "items": {
-                                            "$ref": "#/definitions/output.Example"
+                                            "$ref": "#/definitions/output.User"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/output.Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/register_user": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "ユーザー登録",
+                "parameters": [
+                    {
+                        "description": "ユーザー登録",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/parameter.RegisterUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "$ref": "#/definitions/output.User"
                                         }
                                     }
                                 }
@@ -76,16 +131,47 @@
                 }
             }
         },
-        "output.Example": {
+        "output.User": {
             "type": "object",
             "properties": {
-                "example_key": {
-                    "type": "string"
-                },
-                "example_name": {
+                "email": {
                     "type": "string"
                 },
                 "message": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "user_key": {
+                    "type": "string"
+                }
+            }
+        },
+        "parameter.LoginUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "parameter.RegisterUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
                     "type": "string"
                 }
             }

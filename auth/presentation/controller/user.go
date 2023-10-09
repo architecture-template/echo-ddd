@@ -27,10 +27,10 @@ func NewUserController(userService service.UserService) UserController {
 // @Summary     ユーザー登録
 // @Accept      json
 // @Produce     json
+// @Router      /user/register_user [post]
 // @Param       body body parameter.RegisterUser true "ユーザー登録"
 // @Success     200  {object} response.Success{items=output.User}
 // @Failure     500  {array}  output.Error
-// @Router      /user/register_user [post]
 func (u *userController) RegisterUser() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		param := &parameter.RegisterUser{}

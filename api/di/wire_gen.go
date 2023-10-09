@@ -8,6 +8,7 @@ package di
 
 import (
 	"github.com/architecture-template/echo-ddd/api/presentation/controller"
+	"github.com/architecture-template/echo-ddd/api/presentation/middleware"
 	"github.com/architecture-template/echo-ddd/api/service"
 	"github.com/architecture-template/echo-ddd/config/db"
 	"github.com/architecture-template/echo-ddd/infra/dao"
@@ -22,4 +23,10 @@ func InitializeExampleController() controller.ExampleController {
 	exampleService := service.NewExampleService(exampleRepository)
 	exampleController := controller.NewExampleController(exampleService)
 	return exampleController
+}
+
+// user
+func InitializeUserMiddleware() middleware.UserMiddleware {
+	userMiddleware := middleware.NewUserMiddleware()
+	return userMiddleware
 }

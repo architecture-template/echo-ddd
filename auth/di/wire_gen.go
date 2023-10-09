@@ -7,6 +7,7 @@
 package di
 
 import (
+	"github.com/architecture-template/echo-ddd/api/presentation/middleware"
 	"github.com/architecture-template/echo-ddd/auth/presentation/controller"
 	"github.com/architecture-template/echo-ddd/auth/service"
 	"github.com/architecture-template/echo-ddd/config/db"
@@ -23,4 +24,10 @@ func InitializeUserController() controller.UserController {
 	userService := service.NewUserService(userRepository, transactionRepository)
 	userController := controller.NewUserController(userService)
 	return userController
+}
+
+// user
+func InitializeUserMiddleware() middleware.UserMiddleware {
+	userMiddleware := middleware.NewUserMiddleware()
+	return userMiddleware
 }

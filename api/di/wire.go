@@ -9,6 +9,7 @@ import (
     "github.com/architecture-template/echo-ddd/infra/dao"
     "github.com/architecture-template/echo-ddd/api/service"	
     "github.com/architecture-template/echo-ddd/api/presentation/controller"
+	"github.com/architecture-template/echo-ddd/api/presentation/middleware"
 )
 
 // example
@@ -20,5 +21,13 @@ func InitializeExampleController() controller.ExampleController {
 		controller.NewExampleController,
 	)
 
+    return nil
+}
+
+// user
+func InitializeUserMiddleware() middleware.UserMiddleware {
+    wire.Build(
+		middleware.NewUserMiddleware,
+    )
     return nil
 }

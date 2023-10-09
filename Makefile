@@ -1,5 +1,5 @@
-# 全てのコンテナを起動
-docker_all:
+# コンテナを起動
+docker_up:
 	docker compose -f docker-compose.local.yml up -d --build
 	docker compose -f docker-compose.test.yml up -d --build
 

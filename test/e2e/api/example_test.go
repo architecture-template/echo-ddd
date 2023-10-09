@@ -14,7 +14,7 @@ import (
 	"github.com/architecture-template/echo-ddd/api/presentation/response"
 )
 
-func TestExample_ListExample(t *testing.T) {
+func TestExample_GetExample(t *testing.T) {
 	files := []File{
 		"sql/example/example_table.sql",
 		"sql/example/example_insert.sql",
@@ -30,8 +30,8 @@ func TestExample_ListExample(t *testing.T) {
 		expectedCode int
 	}{
 		{
-			name:         "正常系: データが存在する場合",
-			exampleKey:   "test_key",
+			name:        "正常系: データが存在する場合",
+			exampleKey:  "test_key",
 			exampleName: "test_name",
 			expectedCode: http.StatusOK,
 		},

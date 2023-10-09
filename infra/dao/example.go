@@ -34,7 +34,7 @@ func (e *exampleDao) List(limit int64) (*model.Examples, error) {
 }
 
 // FindByKey example_keyで取得する
-func (e *exampleDao) FindByKey(email string) (*model.Example, error) {
+func (e *exampleDao) FindByExampleKey(email string) (*model.Example, error) {
 	entity := &model.Example{}
 	res := e.Read.
 		Where("example_key = ?", email).

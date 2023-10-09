@@ -6,5 +6,5 @@ import (
 
 type ExampleRepository interface {
 	List(limit int64) (*model.Examples, error) 
-	FindByKey(testKey string) (*model.Example, error)
+	FindByExampleKey(testKey string) (*model.Example, error)
 }

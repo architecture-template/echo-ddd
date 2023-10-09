@@ -7,7 +7,7 @@ import (
 )
 
 type ExampleService interface {
-	FindByKey(exampleKey *parameter.ExampleKey) (*model.Example, error)
+	FindByExampleKey(exampleKey *parameter.ExampleKey) (*model.Example, error)
 }
 
 type exampleService struct {
@@ -23,8 +23,8 @@ func NewExampleService(
 }
 
 // FindByKey キーから取得する
-func (e *exampleService) FindByKey(exampleKey *parameter.ExampleKey) (*model.Example, error) {
-	result, err := e.exampleRepository.FindByKey(exampleKey.ExampleKey)
+func (e *exampleService) FindByExampleKey(exampleKey *parameter.ExampleKey) (*model.Example, error) {
+	result, err := e.exampleRepository.FindByExampleKey(exampleKey.ExampleKey)
 	if err != nil {
 		return nil, err
 	}

@@ -37,7 +37,7 @@ func (e *exampleController) GetExample() echo.HandlerFunc {
 			ExampleKey: c.Param("exampleKey"),
 		}
 
-		result, err := e.exampleService.FindByKey(exampleKey)
+		result, err := e.exampleService.FindByExampleKey(exampleKey)
 		if err != nil {
 			out := output.NewError(err)
 			response := response.ErrorWith("get_example", 500, out)

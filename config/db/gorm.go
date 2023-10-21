@@ -39,10 +39,8 @@ func NewDB() *SqlHandler {
     }
 	writeDB.SingularTable(true)
 
-    sqlHandler := SqlHandler{
+    return &SqlHandler{
         ReadConn:  readDB,
         WriteConn: writeDB,
     }
-
-    return &sqlHandler
 }
